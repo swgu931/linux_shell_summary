@@ -143,3 +143,17 @@ ls -l test.log
 echo '' > test.log2
 ls -l test.log2
 ```
+
+**Test**
+```
+ls -l /etc | grep d drwxr-xr-x
+
+ls -R /etc | grep bash | grep .d
+ls -R /etc 2>/dev/null | grep bash | grep .d
+sudo ls -R /etc | grep bash | grep .d
+
+cat /etc/services | grep tcp |grep daemon | grep -v service
+
+dmesg | grep Success
+```
+
