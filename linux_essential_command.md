@@ -113,5 +113,86 @@ sleep 3m      (m | h | d)
 ```
 
 ```
+ps -ef
+ps -ef | grep bash
+ps -af 
+ps ax
+  (Z 인 경우 좀비 이므로 죽여야 함, 부모 id 를 알아야 함)
+ps af
+```
+```
+top
+top -b
+top -b > top.txt  (실시간 저장)
+```
+```
+tar -cvf testdir.tar testdir
+tar -tvf testdir.tar  (목록을 표시)
+ls -l
+tar -xvf testdir.tar
+rm -rf testdir
+tar -xvf testdir.tar
 
+tar -cvf abc.tar aaa bbb ccc  (abc.tar 생성) 
+tar -xvf abc.tar
+
+tar -zcvf testdir.tar.gz testdir
+ls -l
+   testdir.tar.gz
+
+tar -zxvf testdir.tar.gz
+tar -jcvf testdir.tar.bz2 testdir
+ls -l
+   testdir.tar.bz2
+tar -jxvf testdir.tar.bz2
+```
+```
+date
+date --help
+date "+%Y/%m/%d %H:%M:%S"
+date +%s
+
+time ls /etc               (시간을 재는 것, 명령 실행 시간 등)
+
+sleep 3
+sleep 1m    (m | h | d)
+```
+
+## find, sort, tee, uniq, tr, wc, cut
+```
+find /et --name *.conf
+  **atime, ctime, mtime**
+atime(access) : cat, head, tail, grep 시 변경 
+ctime(change) : chmod, chown, ...
+mtime(modification) : ls -l
+
+find /etc -mtime -5 -exec file {} \:
+sort 파일이름   :    ls -R /etc | sort
+tee 파일이름    :    ls /etc | tee etc.txt
+uniq 파일이름   :    ls -R /etc | sort | uniq
+
+echo "abcdeFGHI" | tr -d cdg
+echo "abcdeFGHI" | tr A-Z a-z
+wc [옵션] /etc/passwd
+     l : 행수 빈행을 포함 함
+     w : 단어수  빈행을 포함하지 않음
+     c : 바이트 수 
+date | cut =d '' -f5
+```
+```
+find /etc -name *.conf
+find /etc -type f     (정규 파일 검색)
+find -l /etc/apparmor.d/usr.sbin.ippusbxd
+
+find /etc -mtime -5                        (mtime은 날짜 기준, -5: 5미만,  +5: 5초과)
+find /etc -atime +5
+find /etc -size -1024c                   (c: byte, K : kilobyte, M: megabyte)
+find /bin -size +1M 
+find /home/tester -user tester           (소유자가 tester 인 파일)
+find /etc -perm 0600                     (접근권한)
+```
+```
+find /etc -mtime -5 -exec file {} \;   (;는 메타문자이므로 find가 해석하도록 \ 를 추가
+sudo find /etc -mtime -5 -exec file {} \; | grep "ASCII text"
+```
 
