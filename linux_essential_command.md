@@ -1,5 +1,7 @@
 # Linux Essential Command
 - sudo su -, id, sudo useradd, sudo passwd, sudo userdel, usdo groupadd, sudo groupdel
+- ps, top, tar, date, time, sleep
+- find, sort, tee, uniq, tr, wc, cut
 
 ## user, group 생성
 
@@ -196,3 +198,105 @@ find /etc -mtime -5 -exec file {} \;   (;는 메타문자이므로 find가 해�
 sudo find /etc -mtime -5 -exec file {} \; | grep "ASCII text"
 ```
 
+```
+sort /etc/passwd
+ls -R /etc | sort
+ls > ls.txt
+cat ls.txt
+tee my.txt        (하나 입력을 받아서, 화면과 파일 2개 출력으로)
+ls /etc | tee etc.txt       
+ls /etc | tee etc.txt | grep conf
+```
+```
+cat > test.txt
+ a
+ b
+ c
+ c
+ a
+ b
+ d
+ d
+ d
+ f
+ ctrl^c
+uniq test.txt   (중복제거)
+sort test.txt | uniq
+ls -R /etc | sort | uniq 
+```
+```
+echo "abcdeFGHI" | tr -d cdg
+echo "abcdeFGHI" | tr -d b-g
+echo "abcdeFGHI" | tr A-Z a-z   (대문자를 소문자로 변경)
+echo "abcdeFGHI" | tr a-z A-Z
+ls /etc | tr a-z A-Z
+```
+```
+wc /etc/passwd
+  47    77    2526 /etc/passwd     (행수, 단어수, 바이트수)
+ls -R /etc | wc -l    (-l 옵션 : 파일수)
+ls -al | grep ^d | wc -l     (d 로 시작하는 )
+```
+```
+date
+date | cut -d ' ' -f5    (' ' : 구분자,     -f5 : 추출할 순서)
+   시간정보 나옴
+date | cut -d ' ' -f5 | cut -d ':' -f2
+   분 정보가 나옴
+cat /etc/passwd | cut -d ':' -f1,3
+cat /etc/passwd | cut -d ':' -f1-3
+```
+**Test**
+```
+1) /etc에서 사이즈가 512바이트를 초과하는 파일의 수를 출력하라 
+sudo find /etc -size +512c | wc -l
+
+2) /var/log에서 수정시간이 10분 미만인 파일을 모두 /home/user/backup 디렉터리에 복사하라
+
+sudo find /var/log -mmin -10 -exec cp {} /home/user/backup \;
+
+3)
+date | cut -d ' ' -f5
+
+4)
+date | cut -d ' ' -f5 | cut -d ':' -f1-2
+
+5) 총 단어수
+wc -w /etc/rc0.d/README 
+
+6) 고유한 단어의 총수 (같은 단어는 한번만 카운트)
+cat /etc/rc0.d/README | tr ' ' '\n' | sort | uniq | wc -w
+```
+
+## file system : file, mount, mkfs, df, dd command
+
+```
+df
+sudo umount /dev/sr0
+df
+sudo mount -t iso9660 /dev/cdrom /mnt
+ls /mnt
+sudo umount /mnt
+```
+```
+mkfs -t ext2 /dev/sdb1    (포맷)
+mkfs.ext2 /dev/sdb1
+```
+```
+dd if=/dev/cdrom of=cdrom.iso bs=512
+file cdrom.iso
+ls -l cdrom.iso
+sudo mount -t iso9660 cdrom.iso /mnt
+df
+
+dd if=/dev/zero of=myimg count=1024 bs=512
+mkfs.ext2 myimg
+file myimg
+sudo mount -t ext2 myimg /mnt
+ls /mnt
+sudo cp /bin/ls /mnt
+ls /mnt
+sudo umount /mnt
+sudo mount -t ext2 myimg /mnt
+ls /mnt
+```
