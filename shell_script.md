@@ -112,6 +112,114 @@ A="date: *"
 echo $A
 echo "$A"
 ```
+```
+#!/bin/bash
 
+name="linux"
+course="expert"
 
+# "linux expert"
+var="$name $course"
+echo $var
 
+# "$linux \expert"
+var="\$$name \\$course"
+echo $var
+
+# "$$linux \\expert"
+var="\$\$$name \\\\$course"
+echo $var
+
+# "experted linux"
+var="${course}ed $name"
+echo $var
+
+# "linux_expert_170101"
+var="${name}_${course}_`date +%y%m%d`"
+```
+
+**지역변수, 환경변수, export, set, env, source 명령**
+- HOME, PATH, USER, HOSTNAME, PS1, PS2, PWD, RANDOM, UID, PPID
+```
+export name
+export course
+
+set | more
+set | grep course
+echo $course
+env
+env | grep PATH
+echo $PATH
+
+env | grep course
+unset name
+unset course
+env | grep course
+
+./pratice/EX02-10_var_source/var_source.h    
+echo $lvar
+echo $gvar
+source ./pratice/EX02-10_var_source/var_source.h           (현재 쉘에서 소스를 실행시킴)
+echo $lvar
+echo $gvar
+env | grep gvar
+```
+
+**변수타입, 속성, 배열**
+- declare
+
+```
+var="string"
+echo $var
+let var++
+echo $var
+var=5
+echo $var
+let var++
+echo $var
+
+var="a b"
+let var++  : error
+```
+```
+declare -i ivar=23    (integer)
+echo $ivar
+ivar="string"
+declare -p ivar
+let ivar++
+echo $ivar
+
+declare -i ivar="123"
+echo $ivar
+declare -i ivar=abc
+echo $ivar
+
+declare -r rvar="constant"   (readonly)
+echo $rvar
+rvar="string"
+declare -p rvar
+
+readonly rovar="constant"
+echo $rovar
+```
+```
+avar1=("date0" "date1" "date2")
+echo ${avar1[*]}
+declare -p avar1
+
+avar2[2]="data2"
+avar2[1]="data1"
+avar2[3]="data3"
+echo ${avar2[*]}
+declare -p avar2
+unset avar2[2]
+echo #{avar2[*]}
+declare -p avar2
+
+declare -ia iavar
+iavar[0]=0
+iavar[1]=1
+iavar[2]="data2"
+echo ${iavar[*]}
+declare -p iavar
+```
