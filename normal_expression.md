@@ -50,7 +50,7 @@ grep '^[^[:digit:]]ac' /etc/services
 grep '[[:alpha:][:digit:]]' /etc/services
 ```
   - 확장 정규 표현식: |, ( ), ?, +, {N,M}
- ```
+```
  #!/bin/bash
 
 #### Extended Regular Expression ####
@@ -60,14 +60,33 @@ grep -E 'sis|sys' /etc/services
 
 # ()
 grep -E 's(i|y)s' /etc/services
+grep -E '(s)(i|y)\1' /etc/services
+
+# normal expression 으로 표현 (동일 기능) 
+grep 'sis\|sys' /etc/services
+grep 's\(i\|y\)s' /etc/services
 
 # ? 
-grep -E 'y?time' /etc/services
+grep -E 'y?time' /etc/services     (? 앞에 y가 한개 혹은 없는 것)
+grep -E '(day)?time' /etc/services
 
 # +
-grep -E 'm+e' /etc/services
+grep -E 'm+e' !$    (+앞의 m 이 한번이상 나오는 것)
 
 # {}
-grep -E 'm{2,3}' /etc/services
- ```
- 
+grep -E 'm{2,3}' /etc/services    (m 이 2번, 혹은 3번 연속 나오는 것)
+```
+  - 핸드폰번호 유효성 판단
+  - ./phone.sh {핸드폰 번호} ? 유효한 번호이면 “0”을, 아니면 “1”을 출력하라
+    맨 앞 부분은 010, 011, 016, 017, 018, 019 중 하나이고, 중간 부분은 3~4자리, 마지막 부분은 4자리, 
+    각 부분이 ‘?’로 구분되어 있으면 유효한 번호이다
+
+```
+echo $1 | grep -E '01[016-9]-[0-9]{3,4}-[0-9]{4,4}' >/dev/null
+echo $?
+```
+./phone.sh 'HP:010-1234-5678'
+```
+echo $1 | grep -E '^01[016-9]-[0-9]{3,4}-[0-9]{4,4}' >/dev/null
+echo $?
+```
