@@ -49,4 +49,25 @@ grep '[[:alpha:]]port' /etc/services
 grep '^[^[:digit:]]ac' /etc/services
 grep '[[:alpha:][:digit:]]' /etc/services
 ```
+  - 확장 정규 표현식: |, ( ), ?, +, {N,M}
+ ```
+ #!/bin/bash
 
+#### Extended Regular Expression ####
+
+# |
+grep -E 'sis|sys' /etc/services
+
+# ()
+grep -E 's(i|y)s' /etc/services
+
+# ? 
+grep -E 'y?time' /etc/services
+
+# +
+grep -E 'm+e' /etc/services
+
+# {}
+grep -E 'm{2,3}' /etc/services
+ ```
+ 
