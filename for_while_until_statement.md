@@ -151,3 +151,16 @@ fi
 cat /etc/passwd | awk ' BEGIN { FS=":" } { print "#" NR ": " $1 }'
 ```
 
+- until
+```
+count=0
+
+until [ $count -gt 5 ]
+do
+  echo $count
+  let count++
+done
+```
+
+
+```
