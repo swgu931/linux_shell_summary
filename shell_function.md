@@ -1,28 +1,81 @@
 # function
-
-
-
-
-
-
-#  암호검사
-
+ - function FUNC { COMMANDS; } 또는 FUNC() { COMMANDS; }
 ```
- #!/bin/bash
-SAFE=0
-is_safe()
+#!/bin/bash
+
+# print current directory
+function dir_cur
 {
-   # 여기에 코드를 작성한다
-   res=`echo "$1" | grep을 이용한 유효성검사식 작성 `
-   # res의 결과를 사용하여 길이 검사를 하여 8자 이상이면 SAFE=1 을 수행하도록 한다
+  ls -l
 }
 
-read line
-is_safe "$line"
-[ $SAFE -eq 1 ] && echo "YES" || echo "NO"  
+# print current working directory
+pwd_cur ()
+{
+	 pwd
+}
+```
+ - 실행
+ - dir_cur
+ - pwd_cur
+```
+#!/bin/bash
+
+# print any directory
+func ()
+{
+	echo '$#': $#
+	echo '$0': $0
+	echo '$1': $1
+	echo '$2': $2
+	echo '$3': $3
+}
+
+func one two three
 ```
 
-  - vi check_pw.sh
+```
+#!/bin/bash
+
+max()
+{
+	if [ $1 -gt $2 ]; then
+		return $1
+	else
+		return $2
+	fi
+}
+
+max $1 $2
+
+echo "max is $?"
+```
+```
+#!/bin/bash
+
+RET=
+
+comp ()
+{
+	if [ $1 -gt 50 ]
+	then
+		RET=$1
+	else
+		RET="SMALL"
+	fi
+}
+
+comp 10
+echo return is $RET
+comp 1024
+echo return is $RET
+```
+
+##  안전한 암호인지 확인하는 함수를 작성하는 문제
+   
+### 방법 1
+ - check_pw.sh '12345678'
+
 ```
 #!/bin/bash
 
@@ -42,6 +95,9 @@ is_safe()
 is_safe "$1"
 [ $SAFE -eq 1 ] && echo "YES" || echo "NO"
 ```
+
+### 방법 2
+  - check_pw.sh  # read 로 읽음
 ```
 #!/bin/bash
 
@@ -50,11 +106,11 @@ is_safe()
 {
   res=`echo $1 | grep '[0-9]' | grep '[~!@#$%^&*]' | grep '[A-Z]'`
   len=${#res}
-  if [ $len -gt 8 ]
+  if [ $len -lt 8 ]
   then
-    SAFE=1
-  else
     SAFE=0
+  else
+    SAFE=1
   fi
 }
 
@@ -62,16 +118,5 @@ read line
 is_safe "$line"
 [ $SAFE -eq 1 ] && echo "YES" || echo "NO"
 ```
-#!/bin/bash
-SAFE=0
-is_safe()
-{
-   # 여기에 코드를 작성한다
-   res=`echo "$1" | grep을 이용한 유효성검사식 작성 `
-   # res의 결과를 사용하여 길이 검사를 하여 8자 이상이면 SAFE=1 을 수행하도록 한다
-}
 
-read line
-is_safe "$line"
-[ $SAFE -eq 1 ] && echo "YES" || echo "NO"  
-```
+
