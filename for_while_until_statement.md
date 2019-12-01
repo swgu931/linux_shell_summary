@@ -1,5 +1,7 @@
 #  for, while, until 
 
+##  for
+
 ```
 #!/bin/bash
 
@@ -36,6 +38,8 @@ do
   echo $fname
 done
 ```
+
+## for 문을 사용하여 bin 파일을 바이너리 덤프하여 asc 파일로 저장
   - bin 파일을 바이너리 덤프하여 asc 파일로 저장하는 스크립트를 작성하는 문제
   - $xxd abc.bin > abc.asc 
   - $./bin2asc.sh testdir
@@ -50,6 +54,7 @@ do
   xxd $infile > $outfile
 done
 ```
+## while
 ```
 #!/bin/bash
 
@@ -116,14 +121,19 @@ done
 echo $cnt
 }
 ```
+
+## while 문을 시스템에 존재하는 모든 사용자 이름을 출력하는 스크립트를 작성하는 문제
+
   -./read_line.sh < /etc/resolv.conf
 
   - while 문을 시스템에 존재하는 모든 사용자 이름을 출력하는 스크립트를 작성하는 문제
   - ./user_list.sh
   - 사용자들 정보는 /etc/passwd 파일에 기록, 사용자정보는 ":" 로 구분되어 행단위로 주어짐
   - 각 행의 맨 앞에 주어지는 사용자 이름을 행에 하나씩 일련번호를 붙여서 출력
+###  방법 1
 ```
 #!/bin/bash
+
 num=0
 while read line
 do 
@@ -132,10 +142,10 @@ do
   echo "#$num: $name"
 done < etc/passwd
 ```
+###  방법 2
 ```
 #!/bin/bash
 
-if false
 cat /etc/passwd |
 {
 num=0
@@ -146,12 +156,14 @@ do
   echo "#$num: $name"
 done
 }
-fi
 
+```
+###  방법 3
+```
 cat /etc/passwd | awk ' BEGIN { FS=":" } { print "#" NR ": " $1 }'
 ```
 
-- until
+## until
 ```
 count=0
 
@@ -160,7 +172,4 @@ do
   echo $count
   let count++
 done
-```
-
-
 ```
